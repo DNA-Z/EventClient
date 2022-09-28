@@ -1,5 +1,6 @@
 using EventClient.Services;
 using EventClient.WebApp.Extensions;
+using EventClient.WebApp.Middleware;
 using EventClient.WebApp.Options;
 using EventClient.WebApp.Services;
 using Microsoft.AspNetCore.Builder;
@@ -33,6 +34,8 @@ namespace EventClient.WebApp
             IDemoServices services)
         {
             logger.LogInformation("Start configure {Env}", services.Env);
+
+            app.UseMiddleware<SomeMiddleware>();
 
             app.UseRouting();
 
