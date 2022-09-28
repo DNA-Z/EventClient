@@ -1,19 +1,10 @@
-﻿using System.Runtime.CompilerServices;
+﻿using EventClient.WebApp.Options;
+using Microsoft.Extensions.Options;
 
 namespace EventClient.Services
 {
     public interface IDemoServices
     {
-
-    }
-
-    public class DemoServices : IDemoServices
-    {
-
-        [MethodImpl(MethodImplOptions.NoInlining)]
-        public void Method()
-        {
-
-        }
+        public string Env { get; }
     }
 }

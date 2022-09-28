@@ -1,3 +1,6 @@
+using EventClient.Services;
+using EventClient.WebApp.Extensions;
+using EventClient.WebApp.Options;
 using EventClient.WebApp.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -6,10 +9,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace EventClient.WebApp
 {
@@ -26,13 +25,14 @@ namespace EventClient.WebApp
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddScoped<IDemoServices, DemoServices>();
-
+            services.Configure<StoreConfig>(_configuration.GetSection("StoreConfig"));
+            services.AddSomeServices();
         }
 
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger, 
+            IDemoServices services)
         {
-            logger.LogInformation("Start configure");
+            logger.LogInformation("Start configure {Env}", services.Env);
 
             app.UseRouting();
 
