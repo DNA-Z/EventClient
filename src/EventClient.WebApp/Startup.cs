@@ -36,7 +36,6 @@ namespace EventClient.WebApp
             logger.LogInformation("Start configure {Env}", services.Env);
 
             app.UseMiddleware<SomeMiddleware>();
-
             app.UseRouting();
 
             app.UseEndpoints(endpoints =>
