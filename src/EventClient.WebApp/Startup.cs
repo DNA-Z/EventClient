@@ -28,6 +28,7 @@ namespace EventClient.WebApp
         {
             services.Configure<StoreConfig>(_configuration.GetSection("StoreConfig"));
             services.AddSomeServices();
+            services.AddControllers();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILogger<Startup> logger, 
@@ -35,16 +36,10 @@ namespace EventClient.WebApp
         {
             logger.LogInformation("Start configure {Env}", services.Env);
 
-            app.UseMiddleware<SomeMiddleware>();
+            //app.UseMiddleware<SomeMiddleware>();
             app.UseRouting();
 
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapGet("/", async context =>
-                {
-                    await context.Response.WriteAsync("Hello World!");
-                });
-            });
+            app.UseEndpoints(endpoints => endpoints.MapControllers());
         }
     }
 }

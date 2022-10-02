@@ -40,6 +40,7 @@ namespace EventClient.WebApp.HostedServices
             while (!stoppingToken.IsCancellationRequested)
             {
                 _logger.LogInformation("Call {0}", i);
+                i++;
                 await Task.Delay(1000, stoppingToken);
             }
         }

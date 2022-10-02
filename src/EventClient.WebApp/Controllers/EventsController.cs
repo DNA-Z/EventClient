@@ -1,13 +1,21 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using EventClient.Domain.Models;
+using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 
 namespace EventClient.WebApp.Controllers
 {
     [Route("event")]
     public class EventsController : Controller
     {
-        public Task<IActionResult> Index()
+        [HttpGet("{id}")]
+        public async Task<ActionResult<EventState>> GetStateAsync(int id)
         {
-            return View();
+            var eventState = new EventState
+            {
+                Id = id
+            };
+
+            return Ok(eventState);
         }
     }
 }
