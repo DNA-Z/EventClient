@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 
 namespace EventClient.WebApp.HostedServices
 {
-    public class SomeHostedService : IHostedService
+    public class SomeHostedService : BackgroundService //IHostedService
     {
         private readonly ILogger<SomeHostedService> _logger;
         private readonly IServiceProvider _provider;
@@ -19,17 +19,29 @@ namespace EventClient.WebApp.HostedServices
             _provider = provider;
         }
 
-        public Task StartAsync(CancellationToken cancellationToken)
-        {
-            using var scope = _provider.CreateScope();
-            var demoServices = scope.ServiceProvider.GetRequiredService<IDemoServices>();
-            demoServices.Env.ToLower();
-            return Task.CompletedTask;
-        }
+        //public Task StartAsync(CancellationToken cancellationToken)
+        //{
+        //    using var scope = _provider.CreateScope();
+        //    var demoServices = scope.ServiceProvider.GetRequiredService<IDemoServices>();
+        //    demoServices.Env.ToLower();
+        //    return Task.CompletedTask;
+        //}
 
-        public Task StopAsync(CancellationToken cancellationToken)
+        //public Task StopAsync(CancellationToken cancellationToken)
+        //{
+        //    return Task.CompletedTask;
+        //}
+
+        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            return Task.CompletedTask;
+            var cts = CancellationTokenSource.CreateLinkedTokenSource(stoppingToken);
+            cts.Cancel();
+            int i = 0;
+            while (!stoppingToken.IsCancellationRequested)
+            {
+                _logger.LogInformation("Call {0}", i);
+                await Task.Delay(1000, stoppingToken);
+            }
         }
     }
 }
